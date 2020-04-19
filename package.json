@@ -1,0 +1,35 @@
+{
+  "name": "kabra-assignment",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "client-install": "cd client && npm install",
+    "start": "node server.js",
+    "server": "nodemon server.js",
+    "client": "npm start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abhay-singh-au3/kabra-assignment.git"
+  },
+  "keywords": [],
+  "author": "Abhay",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/abhay-singh-au3/kabra-assignment/issues"
+  },
+  "homepage": "https://github.com/abhay-singh-au3/kabra-assignment#readme",
+  "dependencies": {
+    "bcrypt": "^4.0.1",
+    "concurrently": "^5.1.0",
+    "cookie-parser": "^1.4.5",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.9.9"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.3"
+  }
+}
