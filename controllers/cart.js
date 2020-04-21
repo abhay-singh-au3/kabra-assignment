@@ -4,19 +4,19 @@ const Cart = require('../models/Cart');
 // @route   POST /cart/add
 // @access  Private
 exports.addToCart = async (req, res, next) => {
-  const { productId, quantity, name, price } = req.body;
+  const { productID, quantity, name, price } = req.body;
   try {
     let cart = await Cart.findOne({ email: req.email });
     if (cart) {
       // cart already exists
-      let index = cart.products.findIndex((p) => p.productId == productId);
+      let index = cart.products.findIndex((p) => p.productID == productID);
 
       if (index > -1) {
         let productItem = cart.products[index];
         productItem.quantity = quantity;
         cart.products[index] = productItem;
       } else {
-        cart.products.push({ productId, quantity, name, price });
+        cart.products.push({ productID, quantity, name, price });
       }
       cart = await cart.save();
       return res.status(201).json({
@@ -25,9 +25,9 @@ exports.addToCart = async (req, res, next) => {
       });
     } else {
       // if no cart present create a new one
-      const newCart = await cart.create({
+      const newCart = await Cart.create({
         email: req.email,
-        products: [{ productId, quantity, name, price }],
+        products: [{ productID, quantity, name, price }],
       });
       return res.status(201).json({
         success: true,
@@ -65,6 +65,25 @@ exports.getCartItems = async (req, res, next) => {
     return res.status(500).json({
       success: false,
       message: 'Something went wrong!',
+    });
+  }
+};
+
+exports.deleteFromCart = async (req, res, next) => {
+  try {
+    const { productID } = req.body;
+    Cart.updateOne(
+      { email: req.email },
+      { $pull: { products: { productID: productID } } },
+      function (err, obj) {
+        res.sendStatus(200);
+      }
+    );
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({
+      success: false,
+      message: 'Something went wrong',
     });
   }
 };
