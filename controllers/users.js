@@ -6,7 +6,7 @@ const jwt = require('jsonwebtoken');
 // @desc    Verify user credentials to login
 // @route   POST /users/login
 // @access  Public
-exports.loginUser = async (req, res, next) => {
+exports.loginUser = (req, res, next) => {
   Users.findOne({ email: req.body.email }).then((user) => {
     if (user) {
       if (bcrypt.compareSync(req.body.password, user.password)) {
